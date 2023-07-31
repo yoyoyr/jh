@@ -53,6 +53,22 @@
             android:text="银河大厦2311"
             android:textColor="@color/black" />
 
+        <TextView
+            android:id="@+id/tv2402"
+            android:layout_width="match_parent"
+            android:layout_height="44dp"
+            android:gravity="center"
+            android:text="吕厝304栋2402—888"
+            android:textColor="@color/black" />
+
+        <TextView
+            android:id="@+id/tv2902"
+            android:layout_width="match_parent"
+            android:layout_height="44dp"
+            android:gravity="center"
+            android:text="吕厝302栋2902—02"
+            android:textColor="@color/black" />
+
 
     </LinearLayout>
 </layout>

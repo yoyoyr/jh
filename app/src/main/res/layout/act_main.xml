@@ -11,11 +11,25 @@
         android:orientation="vertical">
 
 
+        <TextView
+            android:id="@+id/tvTime"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/white"
+            android:gravity="center"
+            android:paddingTop="16dp"
+            android:paddingBottom="16dp"
+            android:text="请选择时间"
+            android:textColor="@color/black"
+            android:textSize="16sp"
+            tools:ignore="MissingConstraints"
+            app:layout_constraintTop_toTopOf="parent"/>
+
         <androidx.core.widget.NestedScrollView
             android:layout_width="match_parent"
             android:layout_height="0dp"
             app:layout_constraintBottom_toTopOf="@id/tvAddRecord"
-            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tvTime"
             app:layout_constraintVertical_bias="1.0"
             tools:layout_editor_absoluteX="16dp">
 
@@ -25,17 +39,6 @@
                 android:layout_height="0dp"
                 android:orientation="vertical">
 
-                <TextView
-                    android:id="@+id/tvTime"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="16dp"
-                    android:gravity="center"
-                    android:text="请选择时间"
-                    android:textColor="@color/black"
-                    android:textSize="16sp"
-                    tools:ignore="MissingConstraints" />
-
 
                 <TextView
                     android:id="@+id/wd404"
@@ -44,21 +47,39 @@
                     android:layout_marginTop="16dp"
                     android:gravity="center_vertical"
                     android:text="万达404"
+                    android:layout_marginStart="16dp"
                     android:textColor="@color/black"
                     android:textSize="16sp"
                     tools:ignore="MissingConstraints" />
 
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginEnd="16dp"
+                    android:layout_marginTop="16dp"
+                    android:background="#40000000" />
 
                 <TextView
                     android:id="@+id/wd1514"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="16dp"
+                    android:layout_marginStart="16dp"
                     android:gravity="center_vertical"
                     android:text="万达1514"
                     android:textColor="@color/black"
                     android:textSize="16sp" />
 
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginEnd="16dp"
+                    android:layout_marginTop="16dp"
+                    android:background="#40000000" />
 
                 <TextView
                     android:id="@+id/yh2303"
@@ -67,9 +88,18 @@
                     android:layout_marginTop="16dp"
                     android:gravity="center_vertical"
                     android:text="银河大厦2303"
+                    android:layout_marginStart="16dp"
                     android:textColor="@color/black"
                     android:textSize="16sp" />
 
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginEnd="16dp"
+                    android:layout_marginTop="16dp"
+                    android:background="#40000000" />
 
                 <TextView
                     android:id="@+id/yh2311"
@@ -78,6 +108,47 @@
                     android:layout_marginTop="16dp"
                     android:gravity="center_vertical"
                     android:text="银河大厦2311"
+                    android:layout_marginStart="16dp"
+                    android:textColor="@color/black"
+                    android:textSize="16sp" />
+
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginEnd="16dp"
+                    android:layout_marginTop="16dp"
+                    android:background="#40000000" />
+
+                <TextView
+                    android:id="@+id/lc2402"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:gravity="center_vertical"
+                    android:text="银河大厦2311"
+                    android:layout_marginStart="16dp"
+                    android:textColor="@color/black"
+                    android:textSize="16sp" />
+
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginEnd="16dp"
+                    android:layout_marginTop="16dp"
+                    android:background="#40000000" />
+
+                <TextView
+                    android:id="@+id/lc2902"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:gravity="center_vertical"
+                    android:text="银河大厦2311"
+                    android:layout_marginStart="16dp"
                     android:textColor="@color/black"
                     android:textSize="16sp" />
 
@@ -90,7 +161,7 @@
             android:layout_height="44dp"
             android:background="@color/white"
             android:gravity="center"
-            android:text="新增消费记录"
+            android:text="新增预约"
             android:textColor="@color/black"
             android:textSize="16sp"
             app:layout_constraintBottom_toBottomOf="parent" />

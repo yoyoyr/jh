@@ -34,7 +34,7 @@ public class AddDialog extends DialogFragment {
         DialogAddBinding binding = DataBindingUtil.inflate(inflater, R.layout.dialog_add, container, false);
 
         binding.tvAddress.setText("门店 ： " + AppContext.selectOrder.getAddress());
-        binding.tvTime.setText("预约时间 ： " + TimeUtil.formateDateHH(AppContext.selectOrder.getStartTime()) + " - " + TimeUtil.formateDateHH(AppContext.selectOrder.getEndTime()));
+        binding.tvTime.setText("时间 ： " + TimeUtil.formateDateHHmm(AppContext.selectOrder.getStartTime()) + " - " + TimeUtil.formateDateHHmm(AppContext.selectOrder.getEndTime()));
 
         binding.tvOK.setOnClickListener(new View.OnClickListener() {
             @Override

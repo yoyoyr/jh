@@ -23,8 +23,8 @@ public class TimeUtil {
 
     }
 
-    public static String formateDateHH(long time) {
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("HH时");
+    public static String formateDateHHmm(long time) {
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("HH时mm分");
         return simpleDateFormat.format(new Date(time));
     }
 

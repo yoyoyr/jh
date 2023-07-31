@@ -71,6 +71,26 @@ public class AddressDialog extends DialogFragment {
                 dismissAllowingStateLoss();
             }
         });
+        binding.tv2402.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                if(selectListener !=null){
+                    selectListener.onSelect("吕厝304栋2402—888");
+                }
+                dismissAllowingStateLoss();
+            }
+        });
+        binding.tv2902.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                if(selectListener !=null){
+                    selectListener.onSelect("吕厝302栋2902—02");
+                }
+                dismissAllowingStateLoss();
+            }
+        });
 
         return binding.getRoot();
 

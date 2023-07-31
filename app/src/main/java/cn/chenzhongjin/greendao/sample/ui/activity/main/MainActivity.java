@@ -54,7 +54,7 @@ public class MainActivity extends BaseCompatActivity {
 
     private long queryStartTime, queryEndTime;
 
-    private StringBuffer wd404, wd1514, yh2303, yh2311 = new StringBuffer();
+    private StringBuffer wd404, wd1514, yh2303, yh2311, lc2402, lc2902;
 
 
     @Override
@@ -63,7 +63,7 @@ public class MainActivity extends BaseCompatActivity {
         orderDao = DaoUtil.INSTANCE.getDaoSession().getOrderDao();
         initTimePicker();
         setTime(System.currentTimeMillis());
-        mBinding.tvTime.setText(TimeUtil.formateDate(System.currentTimeMillis()));
+        mBinding.tvTime.setText(TimeUtil.formateDate(System.currentTimeMillis()) + "预约情况");
         mBinding.tvTime.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -91,6 +91,8 @@ public class MainActivity extends BaseCompatActivity {
         wd1514 = new StringBuffer("万达1514 ： ");
         yh2303 = new StringBuffer("银河大厦2303 ： ");
         yh2311 = new StringBuffer("银河大厦2311 ： ");
+        lc2402 = new StringBuffer("吕厝304栋2402—888 ： ");
+        lc2902 = new StringBuffer("吕厝302栋2902—02 ： ");
 
         Observable.just("")
                 .subscribeOn(Schedulers.io())
@@ -115,6 +117,10 @@ public class MainActivity extends BaseCompatActivity {
                                         yh2303.append("\n        ").append(TimeUtil.getTimeScope(order));
                                     } else if (Objects.equals(order.getAddress(), "银河大厦2311")) {
                                         yh2311.append("\n        ").append(TimeUtil.getTimeScope(order));
+                                    } else if (Objects.equals(order.getAddress(), "吕厝304栋2402—888")) {
+                                        lc2402.append("\n        ").append(TimeUtil.getTimeScope(order));
+                                    } else if (Objects.equals(order.getAddress(), "吕厝302栋2902—02")) {
+                                        lc2902.append("\n        ").append(TimeUtil.getTimeScope(order));
                                     }
                                 }
                             });
@@ -132,6 +138,8 @@ public class MainActivity extends BaseCompatActivity {
                         mBinding.wd1514.setText(wd1514.toString());
                         mBinding.yh2303.setText(yh2303.toString());
                         mBinding.yh2311.setText(yh2311.toString());
+                        mBinding.lc2402.setText(lc2402.toString());
+                        mBinding.lc2902.setText(lc2902.toString());
 
                     }
                 });
@@ -145,7 +153,7 @@ public class MainActivity extends BaseCompatActivity {
         pvTime = new TimePickerBuilder(this, new OnTimeSelectListener() {
             @Override
             public void onTimeSelect(Date date, View v) {
-                mBinding.tvTime.setText(TimeUtil.formateDate(date));
+                mBinding.tvTime.setText(TimeUtil.formateDate(date) + "预约情况");
                 loadAllDataByLocal();
             }
         })
