@@ -1,0 +1,18 @@
+<resources>
+    <string name="app_name">GreenDao Sample</string>
+
+    <string name="name_format" formatted="false">姓名：%s</string>
+    <string name="sex_format" formatted="false">性别：%s</string>
+    <string name="phone_format" formatted="false">手机号码：%s</string>
+
+    <string name="input_name_title">姓名:</string>
+    <string name="input_name_hint">请输入姓名</string>
+    <string name="input_sex_title">性别:</string>
+
+    <string name="input_phone_num_title">电话号码:</string>
+    <string name="input_phone_num_hint">请输入电话号码</string>
+    <string name="input_name_error">姓名不能为空</string>
+    <string name="input_phone_num_error">请输入正确的手机号码</string>
+
+</resources>
+
