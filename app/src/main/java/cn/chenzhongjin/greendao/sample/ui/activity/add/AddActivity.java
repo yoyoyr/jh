@@ -22,6 +22,9 @@ import com.dreamliner.lib.frame.base.BaseCompatActivity;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
+import java.util.Objects;
+import java.util.function.Consumer;
 
 import cn.chenzhongjin.greendao.sample.AppContext;
 import cn.chenzhongjin.greendao.sample.R;
@@ -31,6 +34,10 @@ import cn.chenzhongjin.greendao.sample.databinding.ActAddBinding;
 import cn.chenzhongjin.greendao.sample.eventbus.UserChangeEvent;
 import cn.chenzhongjin.greendao.sample.utils.DaoUtil;
 import cn.chenzhongjin.greendao.sample.utils.TimeUtil;
+import io.reactivex.Observable;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.observers.DisposableObserver;
+import io.reactivex.schedulers.Schedulers;
 
 
 /**
@@ -74,23 +81,64 @@ public class AddActivity extends BaseCompatActivity {
             public void onClick(View view) {
 
                 if (TextUtils.isEmpty(mBinding.address.getText())) {
-                    showToast("请输入房间号");
+                    new ErrorDialog("请输入房间号").show(getSupportFragmentManager(), "");
+                    return;
+                }
+
+                if (startTime >= endTime) {
+                    new ErrorDialog("开始时间" + TimeUtil.formateDateHHmm(startTime) + "不能大于结束时间" + TimeUtil.formateDateHHmm(endTime)).show(getSupportFragmentManager(), "");
                     return;
                 }
                 order.setStartTime(startTime);
                 order.setEndTime(endTime);
                 order.setAddress(address);
 
+                Observable.just("")
+                        .subscribeOn(Schedulers.io())
+                        .flatMap(s -> Observable.just(orderDao.queryBuilder()
+                                //ge >=
+                                .whereOr(OrderDao.Properties.StartTime.le(endTime), OrderDao.Properties.EndTime.ge(startTime))
+                                .orderAsc(OrderDao.Properties.StartTime).list())
+                        )
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .compose(bindToLifecycle())
+                        .subscribe(new DisposableObserver<List<Order>>() {
+                            @Override
+                            public void onNext(List<Order> users) {
+                                if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.N) {
+                                    for (int i = 0; i < users.size(); ++i) {
+                                        Order o = users.get(i);
+                                        if (Objects.equals(order.getAddress(), o.getAddress())) {
+                                            new ErrorDialog(o.getAddress() + "   " + TimeUtil.formateDateHHmm(o.getStartTime()) + "到" + TimeUtil.formateDateHHmm(o.getEndTime()) + "已被预约").show(getSupportFragmentManager(), "");
+                                            return;
+                                        }
+                                    }
 
-                AppContext.selectOrder = order;
-                AddDialog dialog = new AddDialog();
-                dialog.okListener = new AddDialog.OkListener() {
-                    @Override
-                    public void onOK() {
-                        insert();
-                    }
-                };
-                dialog.show(getSupportFragmentManager(), "");
+                                    AppContext.selectOrder = order;
+                                    AddDialog dialog = new AddDialog();
+                                    dialog.okListener = new AddDialog.OkListener() {
+                                        @Override
+                                        public void onOK() {
+                                            insert();
+                                        }
+                                    };
+                                    dialog.show(getSupportFragmentManager(), "");
+
+
+                                }
+                            }
+
+                            @Override
+                            public void onError(Throwable e) {
+                                e.printStackTrace();
+                            }
+
+                            @Override
+                            public void onComplete() {
+
+                            }
+                        });
+
             }
         });
 
@@ -154,6 +202,7 @@ public class AddActivity extends BaseCompatActivity {
                 .setItemVisibleCount(5) //若设置偶数，实际值会加1（比如设置6，则最大可见条目为7）
                 .setLineSpacingMultiplier(2.0f)
                 .isAlphaGradient(true)
+                .isCyclic(true)
                 .setDate(calendar)
                 .build();
 
@@ -208,6 +257,7 @@ public class AddActivity extends BaseCompatActivity {
                 .setLineSpacingMultiplier(2.0f)
                 .isAlphaGradient(true)
                 .setDate(calendar)
+                .isCyclic(true)
                 .build();
 
         Dialog mDialog = endPvTime.getDialog();

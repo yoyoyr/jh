@@ -97,7 +97,7 @@ public class MainActivity extends BaseCompatActivity {
         Observable.just("")
                 .subscribeOn(Schedulers.io())
                 .flatMap(s -> Observable.just(orderDao.queryBuilder()
-                        .whereOr(OrderDao.Properties.StartTime.ge(queryStartTime), OrderDao.Properties.EndTime.ge(queryStartTime))
+                        .whereOr(OrderDao.Properties.StartTime.le(queryEndTime), OrderDao.Properties.EndTime.ge(queryStartTime))
                         .orderAsc(OrderDao.Properties.StartTime).list())
                 )
                 .observeOn(AndroidSchedulers.mainThread())
