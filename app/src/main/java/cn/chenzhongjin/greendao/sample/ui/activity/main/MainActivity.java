@@ -18,6 +18,8 @@ import com.bigkoo.pickerview.listener.OnTimeSelectListener;
 import com.bigkoo.pickerview.view.TimePickerView;
 import com.dreamliner.lib.frame.base.BaseCompatActivity;
 
+import org.greenrobot.greendao.query.QueryBuilder;
+
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -96,9 +98,16 @@ public class MainActivity extends BaseCompatActivity {
 
         Observable.just("")
                 .subscribeOn(Schedulers.io())
-                .flatMap(s -> Observable.just(orderDao.queryBuilder()
-                        .whereOr(OrderDao.Properties.StartTime.le(queryEndTime), OrderDao.Properties.EndTime.ge(queryStartTime))
-                        .orderAsc(OrderDao.Properties.StartTime).list())
+                .flatMap(s -> {
+                            QueryBuilder<Order> builder = orderDao.queryBuilder();
+                            return Observable.just(
+
+                                    builder.whereOr(builder.and(OrderDao.Properties.StartTime.ge(queryStartTime), OrderDao.Properties.StartTime.le(queryEndTime))
+                                                    , builder.and(OrderDao.Properties.StartTime.le(queryStartTime), OrderDao.Properties.EndTime.ge(queryEndTime))
+                                                    , builder.and(OrderDao.Properties.EndTime.ge(queryStartTime), OrderDao.Properties.EndTime.le(queryEndTime)
+                                                    ))
+                                            .orderAsc(OrderDao.Properties.StartTime).list());
+                        }
                 )
                 .observeOn(AndroidSchedulers.mainThread())
                 .compose(bindToLifecycle())
@@ -153,6 +162,7 @@ public class MainActivity extends BaseCompatActivity {
         pvTime = new TimePickerBuilder(this, new OnTimeSelectListener() {
             @Override
             public void onTimeSelect(Date date, View v) {
+                setTime(date.getTime());
                 mBinding.tvTime.setText(TimeUtil.formateDate(date) + "预约情况");
                 loadAllDataByLocal();
             }
@@ -160,7 +170,6 @@ public class MainActivity extends BaseCompatActivity {
                 .setTimeSelectChangeListener(new OnTimeSelectChangeListener() {
                     @Override
                     public void onTimeSelectChanged(Date date) {
-                        setTime(date.getTime());
                     }
                 })
                 .setType(new boolean[]{true, true, true, false, false, false})

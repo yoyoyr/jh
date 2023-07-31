@@ -32,6 +32,10 @@ public class TimeUtil {
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("MM月dd日HH时mm分");
         return simpleDateFormat.format(new Date(time));
     }
+    public static String formateDateMMDD(long time) {
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("MM月dd日");
+        return simpleDateFormat.format(new Date(time));
+    }
 
     public static String formateDateMMDDHH(Date date) {
         SimpleDateFormat format = new SimpleDateFormat("MM月dd日HH时mm分");
@@ -66,7 +70,7 @@ public class TimeUtil {
         if (endDayTime == startDayTime) {
             return "";
         } else {
-            return "(次日)";
+            return "(" + formateDateMMDD(order.getEndTime()) + ")";
         }
     }
 

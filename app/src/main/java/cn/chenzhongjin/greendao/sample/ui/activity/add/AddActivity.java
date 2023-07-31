@@ -19,6 +19,8 @@ import com.bigkoo.pickerview.listener.OnTimeSelectListener;
 import com.bigkoo.pickerview.view.TimePickerView;
 import com.dreamliner.lib.frame.base.BaseCompatActivity;
 
+import org.greenrobot.greendao.query.QueryBuilder;
+
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
@@ -95,10 +97,16 @@ public class AddActivity extends BaseCompatActivity {
 
                 Observable.just("")
                         .subscribeOn(Schedulers.io())
-                        .flatMap(s -> Observable.just(orderDao.queryBuilder()
-                                //ge >=
-                                .whereOr(OrderDao.Properties.StartTime.le(endTime), OrderDao.Properties.EndTime.ge(startTime))
-                                .orderAsc(OrderDao.Properties.StartTime).list())
+                        .flatMap(s -> {
+                                    //对象错误
+                                    QueryBuilder<Order> builder = orderDao.queryBuilder();
+                                    return Observable.just(
+                                            builder.whereOr(builder.and(OrderDao.Properties.StartTime.ge(startTime), OrderDao.Properties.StartTime.le(endTime))
+                                                            , builder.and(OrderDao.Properties.StartTime.le(startTime), OrderDao.Properties.EndTime.ge(endTime))
+                                                            , builder.and(OrderDao.Properties.EndTime.ge(startTime), OrderDao.Properties.EndTime.le(endTime)
+                                                            ))
+                                                    .orderAsc(OrderDao.Properties.StartTime).list());
+                                }
                         )
                         .observeOn(AndroidSchedulers.mainThread())
                         .compose(bindToLifecycle())
@@ -145,6 +153,9 @@ public class AddActivity extends BaseCompatActivity {
         mBinding.tvEnd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                Calendar calendar = Calendar.getInstance();
+                calendar.setTime(new Date(endTime));
+                endPvTime.setDate(calendar);
                 endPvTime.show();
             }
         });
@@ -173,6 +184,8 @@ public class AddActivity extends BaseCompatActivity {
 
     }
 
+    private boolean isFirst = true;
+
 
     private void initStartTimePicker() {//Dialog 模式下，在底部弹出
         Calendar calendar = Calendar.getInstance();
@@ -183,7 +196,12 @@ public class AddActivity extends BaseCompatActivity {
                 startTimeStr = getTime(date);
                 startTime = date.getTime();
                 mBinding.tvStart.setText(startTimeStr);
-
+                if (isFirst) {
+                    endTime = startTime + 1000 * 60 * 60 * 2;
+                    endTimeStr = getTime(new Date(endTime));
+                    mBinding.tvEnd.setText(endTimeStr);
+                    isFirst = false;
+                }
             }
         })
                 .setTimeSelectChangeListener(new OnTimeSelectChangeListener() {
