@@ -22,8 +22,8 @@
             android:text="请选择时间"
             android:textColor="@color/black"
             android:textSize="16sp"
-            tools:ignore="MissingConstraints"
-            app:layout_constraintTop_toTopOf="parent"/>
+            app:layout_constraintTop_toTopOf="parent"
+            tools:ignore="MissingConstraints" />
 
         <androidx.core.widget.NestedScrollView
             android:layout_width="match_parent"
@@ -44,113 +44,144 @@
                     android:id="@+id/wd404"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
                     android:layout_marginTop="16dp"
                     android:gravity="center_vertical"
                     android:text="万达404"
-                    android:layout_marginStart="16dp"
                     android:textColor="@color/black"
                     android:textSize="16sp"
                     tools:ignore="MissingConstraints" />
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/rvWd404"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
 
 
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
                     android:layout_marginStart="16dp"
-                    android:layout_marginEnd="16dp"
                     android:layout_marginTop="16dp"
+                    android:layout_marginEnd="16dp"
                     android:background="#40000000" />
 
                 <TextView
                     android:id="@+id/wd1514"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="16dp"
                     android:layout_marginStart="16dp"
+                    android:layout_marginTop="16dp"
                     android:gravity="center_vertical"
                     android:text="万达1514"
                     android:textColor="@color/black"
                     android:textSize="16sp" />
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/rvWd1514"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
 
 
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
                     android:layout_marginStart="16dp"
-                    android:layout_marginEnd="16dp"
                     android:layout_marginTop="16dp"
+                    android:layout_marginEnd="16dp"
                     android:background="#40000000" />
 
                 <TextView
                     android:id="@+id/yh2303"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
                     android:layout_marginTop="16dp"
                     android:gravity="center_vertical"
                     android:text="银河大厦2303"
-                    android:layout_marginStart="16dp"
                     android:textColor="@color/black"
                     android:textSize="16sp" />
 
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/rvYh2303"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
 
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
                     android:layout_marginStart="16dp"
-                    android:layout_marginEnd="16dp"
                     android:layout_marginTop="16dp"
+                    android:layout_marginEnd="16dp"
                     android:background="#40000000" />
 
                 <TextView
                     android:id="@+id/yh2311"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
                     android:layout_marginTop="16dp"
                     android:gravity="center_vertical"
                     android:text="银河大厦2311"
-                    android:layout_marginStart="16dp"
                     android:textColor="@color/black"
                     android:textSize="16sp" />
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/rvYh2311"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
 
 
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
                     android:layout_marginStart="16dp"
-                    android:layout_marginEnd="16dp"
                     android:layout_marginTop="16dp"
+                    android:layout_marginEnd="16dp"
                     android:background="#40000000" />
 
                 <TextView
                     android:id="@+id/lc2402"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
                     android:layout_marginTop="16dp"
                     android:gravity="center_vertical"
-                    android:text="银河大厦2311"
-                    android:layout_marginStart="16dp"
+                    android:text="吕厝304栋2402—888"
                     android:textColor="@color/black"
                     android:textSize="16sp" />
 
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/rvLc2402"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
 
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
                     android:layout_marginStart="16dp"
-                    android:layout_marginEnd="16dp"
                     android:layout_marginTop="16dp"
+                    android:layout_marginEnd="16dp"
                     android:background="#40000000" />
 
                 <TextView
                     android:id="@+id/lc2902"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
                     android:layout_marginTop="16dp"
                     android:gravity="center_vertical"
-                    android:text="银河大厦2311"
-                    android:layout_marginStart="16dp"
+                    android:text="吕厝302栋2902—02"
                     android:textColor="@color/black"
                     android:textSize="16sp" />
+
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/rvLc2902"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
 
             </androidx.appcompat.widget.LinearLayoutCompat>
         </androidx.core.widget.NestedScrollView>

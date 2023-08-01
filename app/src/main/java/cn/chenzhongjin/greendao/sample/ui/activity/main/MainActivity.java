@@ -11,6 +11,7 @@ import android.widget.FrameLayout;
 
 import androidx.annotation.Nullable;
 import androidx.databinding.DataBindingUtil;
+import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.bigkoo.pickerview.builder.TimePickerBuilder;
 import com.bigkoo.pickerview.listener.OnTimeSelectChangeListener;
@@ -20,6 +21,7 @@ import com.dreamliner.lib.frame.base.BaseCompatActivity;
 
 import org.greenrobot.greendao.query.QueryBuilder;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -56,7 +58,7 @@ public class MainActivity extends BaseCompatActivity {
 
     private long queryStartTime, queryEndTime;
 
-    private StringBuffer wd404, wd1514, yh2303, yh2311, lc2402, lc2902;
+    private List<Order> wd404, wd1514, yh2303, yh2311, lc2402, lc2902;
 
 
     @Override
@@ -79,6 +81,12 @@ public class MainActivity extends BaseCompatActivity {
             }
         });
 
+        mBinding.rvWd404.setLayoutManager(new LinearLayoutManager(getBaseContext()));
+        mBinding.rvWd1514.setLayoutManager(new LinearLayoutManager(getBaseContext()));
+        mBinding.rvYh2303.setLayoutManager(new LinearLayoutManager(getBaseContext()));
+        mBinding.rvYh2311.setLayoutManager(new LinearLayoutManager(getBaseContext()));
+        mBinding.rvLc2402.setLayoutManager(new LinearLayoutManager(getBaseContext()));
+        mBinding.rvLc2902.setLayoutManager(new LinearLayoutManager(getBaseContext()));
     }
 
     @Override
@@ -89,12 +97,12 @@ public class MainActivity extends BaseCompatActivity {
 
     private void loadAllDataByLocal() {
 
-        wd404 = new StringBuffer("万达404 ： ");
-        wd1514 = new StringBuffer("万达1514 ： ");
-        yh2303 = new StringBuffer("银河大厦2303 ： ");
-        yh2311 = new StringBuffer("银河大厦2311 ： ");
-        lc2402 = new StringBuffer("吕厝304栋2402—888 ： ");
-        lc2902 = new StringBuffer("吕厝302栋2902—02 ： ");
+        wd404 = new ArrayList<>();
+        wd1514 = new ArrayList<>();
+        yh2303 = new ArrayList<>();
+        yh2311 = new ArrayList<>();
+        lc2402 = new ArrayList<>();
+        lc2902 = new ArrayList<>();
 
         Observable.just("")
                 .subscribeOn(Schedulers.io())
@@ -119,17 +127,17 @@ public class MainActivity extends BaseCompatActivity {
                                 @Override
                                 public void accept(Order order) {
                                     if (Objects.equals(order.getAddress(), "万达404")) {
-                                        wd404.append("\n        ").append(TimeUtil.getTimeScope(order));
+                                        wd404.add(order);
                                     } else if (Objects.equals(order.getAddress(), "万达1514")) {
-                                        wd1514.append("\n        ").append(TimeUtil.getTimeScope(order));
+                                        wd1514.add(order);
                                     } else if (Objects.equals(order.getAddress(), "银河大厦2303")) {
-                                        yh2303.append("\n        ").append(TimeUtil.getTimeScope(order));
+                                        yh2303.add(order);
                                     } else if (Objects.equals(order.getAddress(), "银河大厦2311")) {
-                                        yh2311.append("\n        ").append(TimeUtil.getTimeScope(order));
+                                        yh2311.add(order);
                                     } else if (Objects.equals(order.getAddress(), "吕厝304栋2402—888")) {
-                                        lc2402.append("\n        ").append(TimeUtil.getTimeScope(order));
+                                        lc2402.add(order);
                                     } else if (Objects.equals(order.getAddress(), "吕厝302栋2902—02")) {
-                                        lc2902.append("\n        ").append(TimeUtil.getTimeScope(order));
+                                        lc2902.add(order);
                                     }
                                 }
                             });
@@ -143,12 +151,24 @@ public class MainActivity extends BaseCompatActivity {
 
                     @Override
                     public void onComplete() {
-                        mBinding.wd404.setText(wd404.toString());
-                        mBinding.wd1514.setText(wd1514.toString());
-                        mBinding.yh2303.setText(yh2303.toString());
-                        mBinding.yh2311.setText(yh2311.toString());
-                        mBinding.lc2402.setText(lc2402.toString());
-                        mBinding.lc2902.setText(lc2902.toString());
+                        DetailAdapter wd404Adapter = new DetailAdapter(wd404,MainActivity.this);
+                        mBinding.rvWd404.setAdapter(wd404Adapter);
+
+                        DetailAdapter wd1514Adapter = new DetailAdapter(wd1514,MainActivity.this);
+                        mBinding.rvWd1514.setAdapter(wd1514Adapter);
+
+                        DetailAdapter yh2303Adapter = new DetailAdapter(yh2303,MainActivity.this);
+                        mBinding.rvYh2303.setAdapter(yh2303Adapter);
+
+                        DetailAdapter yh2311Adapter = new DetailAdapter(yh2311,MainActivity.this);
+                        mBinding.rvYh2311.setAdapter(yh2311Adapter);
+
+                        DetailAdapter lc2402Adapter = new DetailAdapter(lc2402,MainActivity.this);
+                        mBinding.rvLc2402.setAdapter(lc2402Adapter);
+
+                        DetailAdapter lc2902Adapter = new DetailAdapter(lc2902,MainActivity.this);
+                        mBinding.rvLc2902.setAdapter(lc2902Adapter);
+
 
                     }
                 });

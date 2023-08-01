@@ -65,15 +65,38 @@ public class AddActivity extends BaseCompatActivity {
 
     private String address;
 
+    private long id = 0;
+
     private String endTimeStr = TimeUtil.formateDateMMDDHH(endTime);
 
 
     @Override
     protected void initViews(@Nullable Bundle savedInstanceState) {
+
+
         mBinding = DataBindingUtil.setContentView(this, R.layout.act_add);
         orderDao = DaoUtil.INSTANCE.getDaoSession().getOrderDao();
+
+        if (getIntent().getExtras() != null) {
+            id = (long) getIntent().getExtras().get("id");
+            if (id != 0) {
+                List<Order> orders = orderDao.queryBuilder().where(OrderDao.Properties.Id.eq(id)).build().list();
+
+                if (orders.get(0) != null) {
+                    order = orders.get(0);
+                    startTime = order.getStartTime();
+                    endTime = order.getEndTime();
+                    startTimeStr = TimeUtil.formateDateMMDDHH(startTime);
+                    endTimeStr = TimeUtil.formateDateMMDDHH(endTime);
+                    address = order.getAddress();
+                    mBinding.address.setText(order.getAddress());
+                }
+            }
+        }
+
         initEndTimePicker();
         initStartTimePicker();
+
         mBinding.tvStart.setText(startTimeStr);
         mBinding.tvEnd.setText(endTimeStr);
 
@@ -116,7 +139,7 @@ public class AddActivity extends BaseCompatActivity {
                                 if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.N) {
                                     for (int i = 0; i < users.size(); ++i) {
                                         Order o = users.get(i);
-                                        if (Objects.equals(order.getAddress(), o.getAddress())) {
+                                        if (o != null && o.getId() != id && Objects.equals(order.getAddress(), o.getAddress())) {
                                             new ErrorDialog(o.getAddress() + "   " + TimeUtil.formateDateHHmm(o.getStartTime()) + "到" + TimeUtil.formateDateHHmm(o.getEndTime()) + "已被预约").show(getSupportFragmentManager(), "");
                                             return;
                                         }
@@ -127,7 +150,11 @@ public class AddActivity extends BaseCompatActivity {
                                     dialog.okListener = new AddDialog.OkListener() {
                                         @Override
                                         public void onOK() {
-                                            insert();
+                                            if (id != 0) {
+                                                update();
+                                            } else {
+                                                insert();
+                                            }
                                         }
                                     };
                                     dialog.show(getSupportFragmentManager(), "");
@@ -184,8 +211,6 @@ public class AddActivity extends BaseCompatActivity {
 
     }
 
-    private boolean isFirst = true;
-
 
     private void initStartTimePicker() {//Dialog 模式下，在底部弹出
         Calendar calendar = Calendar.getInstance();
@@ -196,12 +221,6 @@ public class AddActivity extends BaseCompatActivity {
                 startTimeStr = getTime(date);
                 startTime = date.getTime();
                 mBinding.tvStart.setText(startTimeStr);
-                if (isFirst) {
-                    endTime = startTime + 1000 * 60 * 60 * 2;
-                    endTimeStr = getTime(new Date(endTime));
-                    mBinding.tvEnd.setText(endTimeStr);
-                    isFirst = false;
-                }
             }
         })
                 .setTimeSelectChangeListener(new OnTimeSelectChangeListener() {
@@ -302,6 +321,14 @@ public class AddActivity extends BaseCompatActivity {
     private void insert() {
 
         orderDao.insert(order);
+        postEvent(new UserChangeEvent());
+        finish();
+//        pop();
+    }
+
+    private void update() {
+
+        orderDao.update(order);
         postEvent(new UserChangeEvent());
         finish();
 //        pop();
