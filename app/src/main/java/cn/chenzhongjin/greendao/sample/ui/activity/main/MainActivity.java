@@ -151,22 +151,22 @@ public class MainActivity extends BaseCompatActivity {
 
                     @Override
                     public void onComplete() {
-                        DetailAdapter wd404Adapter = new DetailAdapter(wd404,MainActivity.this);
+                        DetailAdapter wd404Adapter = new DetailAdapter(wd404, MainActivity.this);
                         mBinding.rvWd404.setAdapter(wd404Adapter);
 
-                        DetailAdapter wd1514Adapter = new DetailAdapter(wd1514,MainActivity.this);
+                        DetailAdapter wd1514Adapter = new DetailAdapter(wd1514, MainActivity.this);
                         mBinding.rvWd1514.setAdapter(wd1514Adapter);
 
-                        DetailAdapter yh2303Adapter = new DetailAdapter(yh2303,MainActivity.this);
+                        DetailAdapter yh2303Adapter = new DetailAdapter(yh2303, MainActivity.this);
                         mBinding.rvYh2303.setAdapter(yh2303Adapter);
 
-                        DetailAdapter yh2311Adapter = new DetailAdapter(yh2311,MainActivity.this);
+                        DetailAdapter yh2311Adapter = new DetailAdapter(yh2311, MainActivity.this);
                         mBinding.rvYh2311.setAdapter(yh2311Adapter);
 
-                        DetailAdapter lc2402Adapter = new DetailAdapter(lc2402,MainActivity.this);
+                        DetailAdapter lc2402Adapter = new DetailAdapter(lc2402, MainActivity.this);
                         mBinding.rvLc2402.setAdapter(lc2402Adapter);
 
-                        DetailAdapter lc2902Adapter = new DetailAdapter(lc2902,MainActivity.this);
+                        DetailAdapter lc2902Adapter = new DetailAdapter(lc2902, MainActivity.this);
                         mBinding.rvLc2902.setAdapter(lc2902Adapter);
 
 
@@ -229,21 +229,25 @@ public class MainActivity extends BaseCompatActivity {
     }
 
     private void setTime(long time) {
+        time = time - 1000;
         Calendar calendar = Calendar.getInstance();
         calendar.setTimeInMillis(time);
         calendar.set(Calendar.HOUR_OF_DAY, 0);
         calendar.set(Calendar.SECOND, 0);
         calendar.set(Calendar.MINUTE, 0);
-        calendar.set(Calendar.MINUTE, 0);
+        calendar.set(Calendar.MILLISECOND, 0);
         Date date = calendar.getTime();
         queryStartTime = date.getTime() / 1000 * 1000;
 
 
+        calendar.setTimeInMillis(time);
         calendar.set(Calendar.HOUR_OF_DAY, 23);
         calendar.set(Calendar.SECOND, 59);
         calendar.set(Calendar.MINUTE, 59);
-        calendar.set(Calendar.MINUTE, 999);
+        calendar.set(Calendar.MILLISECOND, 999);
         date = calendar.getTime();
         queryEndTime = date.getTime() / 1000 * 1000;
+
+        System.out.println("time queryStartTime " + TimeUtil.formateDateMMDDHH(queryStartTime) + ", queryEndTime " + TimeUtil.formateDateMMDDHH(queryEndTime));
     }
 }
